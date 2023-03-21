@@ -1,13 +1,18 @@
-CFLAGS = -std=c11 -Wall -Wextra -ggdb
+CFLAGS = -std=c11 -Wall -Wextra
 LDFLAGS = -lglfw -lm -lcglm -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi
 
-Run: src/main.c
-	cc $(CFLAGS) -o Run src/main.c $(LDFLAGS)
+.PHONY: test clean debug all executable
 
-.PHONY: test clean
+all: executable
 
-test: Run
+debug: CFLAGS += -DDEBUG -ggdb
+debug: executable
+
+executable: Run
 	./Run
 
 clean:
 	rm -f Run
+
+Run: src/main.c
+	cc $(CFLAGS) -o Run src/main.c $(LDFLAGS)
