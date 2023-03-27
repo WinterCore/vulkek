@@ -5,8 +5,11 @@ LDFLAGS = -lglfw -lm -lcglm -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lX
 
 all: executable
 
-debug: CFLAGS += -DDEBUG -ggdb
+debug: CFLAGS += -ggdb
 debug: executable
+
+release: CFLAGS += -DNDEBUG
+release: executable
 
 executable: Run
 	./Run
