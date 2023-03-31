@@ -23,7 +23,7 @@ src/aids.o: src/aids.c src/aids.h
 $(SHADERS_DIR)/vert.spv: $(SHADERS_DIR)/shader.vert
 	glslc $< -o $@
 
-$(SHADERS_DIR)/frag.spv: $(SHADERS_DIR)/shader.vert
+$(SHADERS_DIR)/frag.spv: $(SHADERS_DIR)/shader.frag
 	glslc $< -o $@
 
 SHADER_FILES = $(SHADERS_DIR)/vert.spv $(SHADERS_DIR)/frag.spv

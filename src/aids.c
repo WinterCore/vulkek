@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "aids.h"
 
-FileData read_file(const char *path) {
+Kyle kyle_from_file(const char *path) {
     FILE *fd = fopen(path, "rb");
 
     if (fd == NULL) {
@@ -21,10 +21,14 @@ FileData read_file(const char *path) {
 
     fclose(fd);
 
-    FileData fileData = {
+    Kyle fileData = {
         .data = buffer,
         .length = length,
     };
 
     return fileData;
+}
+
+void kyle_destroy(Kyle kyle) {
+    free((void *) kyle.data);
 }

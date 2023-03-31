@@ -2,10 +2,10 @@
 #define AIDS
 #include <stdio.h>
 
-typedef struct FileData {
+typedef struct Kyle {
     const char *data;
     const size_t length;
-} FileData;
+} Kyle;
 
-FileData read_file(const char *path);
+Kyle kyle_from_file(const char *path);
 #endif
