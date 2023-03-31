@@ -1,3 +1,4 @@
+#include "aids.h"
 #include <vulkan/vulkan_core.h>
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
@@ -11,6 +12,8 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+
+#include "aids.c"
 
 const char *validationLayers[] = {
     "VK_LAYER_KHRONOS_validation",
@@ -175,6 +178,23 @@ bool checkValidationLayerSupport() {
     }
    
     return true;
+}
+
+VkShaderModule createShaderModule(VkDevice device, FileData *fileData) {
+    VkShaderModuleCreateInfo createInfo = {
+        .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
+        .codeSize = fileData->length,
+        .pCode = (const uint32_t *) fileData->data,
+    };
+
+    VkShaderModule shaderModule;
+
+    if (vkCreateShaderModule(device, &createInfo, NULL, &shaderModule) != VK_SUCCESS) {
+        fprintf(stderr, "[ERROR]: Failed to create shader module!");
+        exit(EXIT_FAILURE);
+    }
+
+    return shaderModule;
 }
 
 int main() {
@@ -408,6 +428,13 @@ int main() {
             exit(EXIT_FAILURE);
         }
     }
+
+    
+    FileData vertShaderCode = read_file("./src/shaders/vert.spv");
+    FileData fragShaderCode = read_file("./src/shaders/frag.spv");
+
+    VkShaderModule vertShaderModule = createShaderModule(device, &vertShaderCode);
+    VkShaderModule fragShaderModule = createShaderModule(device, &fragShaderCode);
 
     while (! glfwWindowShouldClose(window)) {
         glfwPollEvents();
